@@ -29,3 +29,36 @@ margin-top: 50px;
 .navbar-success{
   background-color: #28a745;
 }
+
+nav h4
+{
+  color: white;
+}
+
+.table{
+  margin-top: 5%;
+}
+.table th{
+  width: 33%;
+}
+
+.form-group{
+  width: 60%; 
+  margin-left: 20%; 
+  margin-top: 5%;
+}
+.form-group input{
+  margin-top: 10px;
+}
+
+.custom-file{
+  width: 10%;
+  margin-top: 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-file-input{
+    width: 10%;
+
+}
