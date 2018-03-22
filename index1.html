@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ReactJS-->
+
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+    integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+      <!--myStyle-->
+    <link rel="stylesheet" href="style.css">
+
+
+  </head>
+  <body>
+    <div id="idHeader"></div>
+    <div id="idBlock"></div>
+
+
+    <script type="text/babel">
+
+    var numberSMS = 3;
+    var numberMessageViber = 0;
+    var cost = 0.50;
+
+    class Block extends React.Component {
+
+            send() {
+              alert("hi");
+            };
+            cancel() {
+              alert("cancel");
+            };
+            render() {
+
+              return (
+                <div className="posCenterBlock">
+                  <div className="table-responsive">
+                    <table className="table table-bordered table-hover">
+                      <thead>
+                        <tr className="active">
+                          <th>Фамилия</th>
+                          <th>Имя</th>
+                          <th>Номер</th>
+                          <th>Тип сообщения</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th >Волик</th>
+                          <th>Сергей</th>
+                          <th>0930685396</th>
+                          <th>СМС</th>
+                        </tr>
+                        <tr>
+                          <th>Волик</th>
+                          <th>Сергей</th>
+                          <th>0930685396</th>
+                          <th>СМС</th>
+                        </tr>
+                        <tr>
+                          <th>Волик</th>
+                          <th>Сергей</th>
+                          <th>0930685396</th>
+                          <th>СМС</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <span>Количество смс сообщений: {this.props.sms}</span><br/>
+                  <span>Количество viber сообщений: {this.props.viber}</span><br/>
+                  <span> Цена отправки одного смс сообщения: {this.props.cost} грн</span><br/>
+                  <span> Цена отправки смс сообщений: {this.props.cost*this.props.sms} грн</span><br/>
+                  <button onClick={this.cancel} className="btn btn-danger my-btn-pos-1">Отменить</button>
+                  <button onClick={this.send} className="btn btn-success my-btn-pos-2">Отправить</button>
+
+                </div>
+              );
+            }
+        }
+    const idblock = document.getElementById('idBlock');
+    ReactDOM.render(
+      <Block sms={numberSMS} viber={numberMessageViber} cost={cost} />,
+      idblock
+    );
+
+      class Header extends React.Component {
+              render() {
+                return (
+                  <nav className="navbar navbar-success">
+                    <div className="container">
+                      <h4>SMSs Gateway</h4>
+                    </div>
+                  </nav>
+                );
+              }
+          }
+      const idhead = document.getElementById('idHeader');
+      ReactDOM.render(
+        <Header />,
+        idhead
+      );
+
+    </script>
+    
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+      integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+      integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  </body>
+</html>

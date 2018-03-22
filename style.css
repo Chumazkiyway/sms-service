@@ -1,0 +1,31 @@
+.posCenterBlock{
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 100px;
+
+  width: auto;
+  height: auto;
+}
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: block;
+}
+.my-btn-pos-1 {
+position: relative;
+float: left;
+width: 40%;
+margin-top: 50px;
+}
+
+
+.my-btn-pos-2 {
+position: relative;
+float: right;
+width: 40%;
+margin-top: 50px;
+}
+.navbar-success{
+  background-color: #28a745;
+}
