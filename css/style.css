@@ -15,7 +15,7 @@ body {
 .my-btn-pos-1 {
 position: relative;
 float: left;
-width: 40%;
+width: 33%;
 margin-top: 50px;
 }
 
@@ -23,7 +23,7 @@ margin-top: 50px;
 .my-btn-pos-2 {
 position: relative;
 float: right;
-width: 40%;
+width: 33%;
 margin-top: 50px;
 }
 .navbar-success{
@@ -49,6 +49,8 @@ nav h4
 }
 .form-group input{
   margin-top: 10px;
+  float: right;
+  margin-bottom: 30px;
 }
 
 .custom-file{
@@ -61,4 +63,27 @@ nav h4
 .custom-file-input{
     width: 10%;
 
+}
+
+#registration{
+margin-top: 30px;
+  position: relative;
+  float: right;s
+}
+#signIn
+{
+  display: block;
+  width: 20%;
+  float: right;
+    margin-top: 20px;
+}
+#signUp
+{
+
+  float: left;
+  margin-top: 20px;
+}
+.btnAdd{
+  position: relative;
+  float: right;
 }
