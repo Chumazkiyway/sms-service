@@ -1,3 +1,4 @@
+
 var t =  document.getElementById("dyntab");
 var tds = t.getElementsByTagName("td");
 for (var i=0; i<tds.length; i++){

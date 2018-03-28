@@ -5,6 +5,7 @@ import Register from './Register';
 import Accept from './Accept';
 import Send from './Send';
 
+
 class Main extends Component {
   render() {
     return (

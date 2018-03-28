@@ -38,6 +38,7 @@ class Block extends React.Component {
                           <th>СМС</th>
                         </tr>
                         <tr>
+                        
                           <th>Волик</th>
                           <th>Сергей</th>
                           <th>0930685396</th>
@@ -52,7 +53,7 @@ class Block extends React.Component {
                   <span> Цена отправки смс сообщений: грн</span><br/>
                   <Link to="/send"><button onClick={this.cancel} className="btn btn-danger my-btn-pos-1">Отменить</button></Link>
                   <Link to="/send"><button onClick={this.send} className="btn btn-success my-btn-pos-2">Отправить</button></Link>
-
+					
                   
                 </div>
               );
