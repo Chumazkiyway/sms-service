@@ -1,4 +1,4 @@
-.posCenterBlock{
+.pos-center-block{
   margin-left: 10%;
   margin-right: 10%;
   margin-top: 100px;
@@ -52,9 +52,14 @@ nav h4
   float: right;
   margin-bottom: 30px;
 }
+.btn-length{
+   width: 60%; 
+  margin-left: 20%; 
+  margin-top: 5%;
+}
 
 .custom-file{
-  width: 10%;
+
   margin-top: 50px;
   align-items: center;
   justify-content: center;
@@ -68,14 +73,14 @@ nav h4
 #registration{
 margin-top: 30px;
   position: relative;
-  float: right;s
+  float: right;
 }
 #signIn
 {
   display: block;
   width: 20%;
   float: right;
-    margin-top: 20px;
+  margin-top: 20px;
 }
 #signUp
 {

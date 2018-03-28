@@ -43,3 +43,4 @@ function addRow()
         tds[i].addEventListener('click',editRow);
     }
 }
+
