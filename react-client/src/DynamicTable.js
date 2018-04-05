@@ -1,16 +1,18 @@
 import React from 'react';
-const SortableHeader = (props) => {
+const SortableHeader = ({columns}) => {
   return(
     <thead>
       <tr>
-        {TABLE_COLUMNS.map((element, index) =>
-          <th key={index}>{element.label}</th>
+        {columns.map((element, index) =>
+          <th key={index}>{element}</th>
         )}
       </tr>
     </thead>
   )
 }
-
+{/*this.state.users.map(user =>
+          <div key={user.id}>{user.username}</div>
+        )*/}
 const SortableBody = ({data}) => {
   return(
     <tbody>
@@ -25,12 +27,7 @@ const SortableBody = ({data}) => {
   )
 }
 
-
-class SortableTable extends React.Component {
-  static propTypes = {
-    data: React.PropTypes.array,
-  };
-
+export default class SortableTable extends React.Component {
   constructor(props) {
     super(props);
 
@@ -47,12 +44,12 @@ class SortableTable extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { data, columns } = nextProps;
-    this.setState({ data,columns })
+    this.setState({ data, columns })
   }
 
   render() {
 	  return (
-	    <table className="table table-bordered table-hover">
+	    <table className="table table-bordered table-hover" id="dyntab">
 	      <SortableHeader columns={this.state.columns} />
 	      <SortableBody data={this.state.data} />
 	    </table>
