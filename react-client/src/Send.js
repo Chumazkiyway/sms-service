@@ -43,17 +43,22 @@ class Send extends Component {
 		this.onMyClickAddRow = this.onMyClickAddRow.bind(this);
 	}
 	componentDidMount() {
-    /*fetch('/accept')
-      .then(res => res.json())
-      .then(accept => this.setState({ accept }));
-*/
-      fetch('/send')
-      .then(res => res.json())
-      .then(displayedTable => {        
-        this.setState({ displayedTable });
-        console.log(this.state.displayedTable);
-      });
-  }
+	  fetch('/send')
+	  .then(res => res.json())
+	  .then(displayedTable => {        
+	    this.setState({ displayedTable });
+	    console.log(this.state.displayedTable);
+	  });
+	  
+	}
+	componentDidUpdate() {
+		let t =  document.getElementById("dyntab");
+	  let tds = t.getElementsByTagName("td");
+	    for (var i=0; i<tds.length; i++){
+
+	        tds[i].addEventListener('click',editRow);
+	    }
+	}
 	onMyClickAddRow() {
 
 	    document.getElementById("dyntab").insertRow(-1).innerHTML = '<td>QQ</td><td>qq</td><td>Qq</td>';
