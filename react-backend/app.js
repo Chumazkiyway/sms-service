@@ -3,10 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+//useless
 var indexRouter = require('./routes/index');
 var acceptRouter = require('./routes/accept');
 var sendRouter = require('./routes/send');
+var regRouter = require('./routes/reg');
+
+//database
+var db = require('./db/dbRequests.js');
+db.setUpConnection(); 
 
 var app = express();
 
@@ -23,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public/build')));
 app.use('/', indexRouter);
 app.use('/accept', acceptRouter);
 app.use('/send', sendRouter);
-
+app.use('/register', regRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -39,5 +44,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//////////////////////
+app.post('/', (req,res) => {
+	db.findUser(req.body);
+
+});
+
+
+
 
 module.exports = app;

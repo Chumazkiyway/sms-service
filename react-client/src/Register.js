@@ -30,6 +30,17 @@ class Register extends Component {
   handleSubmit(e) {
     console.log("form submited");
     e.preventDefault();
+    fetch('http://localhost:3001/register', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: '${this.state.login}',
+        pass: '${this.state.pass2}'
+      }),
+    });
   }
   render() {
     return (
