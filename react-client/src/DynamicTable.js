@@ -1,5 +1,5 @@
 import React from 'react';
-const SortableHeader = ({columns}) => {
+const DynamicTableHeader = ({columns}) => {
   return(
     <thead>
       <tr>
@@ -10,10 +10,7 @@ const SortableHeader = ({columns}) => {
     </thead>
   )
 }
-{/*this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
-        )*/}
-const SortableBody = ({data}) => {
+const DynamicTableBody = ({data}) => {
   return(
     <tbody>
       {data.map((element, index) =>
@@ -27,7 +24,7 @@ const SortableBody = ({data}) => {
   )
 }
 
-export default class SortableTable extends React.Component {
+export default class DynamicTable extends React.Component {
   constructor(props) {
     super(props);
 
@@ -38,8 +35,8 @@ export default class SortableTable extends React.Component {
   }
 
   componentWillMount() {
-    const { data, columns } = this.props;
-    this.setState({ data, columns })
+    const { data, columns, id } = this.props;
+    this.setState({ data, columns, id })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,9 +46,9 @@ export default class SortableTable extends React.Component {
 
   render() {
 	  return (
-	    <table className="table table-bordered table-hover" id="dyntab">
-	      <SortableHeader columns={this.state.columns} />
-	      <SortableBody data={this.state.data} />
+	    <table className="table table-bordered table-hover" id={this.state.id}>
+	      <DynamicTableHeader columns={this.state.columns} />
+	      <DynamicTableBody data={this.state.data} />
 	    </table>
 	  );
 	}

@@ -3,14 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-//useless
-var indexRouter = require('./routes/index');
+var http = require('http');
+
+var indexRouter = require('./routes/login');
 var acceptRouter = require('./routes/accept');
 var sendRouter = require('./routes/send');
-var regRouter = require('./routes/reg');
-
+var regRouter = require('./routes/register');
+ 
 //database
-var db = require('./db/dbRequests.js');
+
+var db = require('./db/dbRequests.js')
 db.setUpConnection(); 
 
 var app = express();
@@ -47,11 +49,8 @@ app.use(function(err, req, res, next) {
 
 //////////////////////
 app.post('/', (req,res) => {
-	db.findUser(req.body);
+	
 
 });
-
-
-
 
 module.exports = app;

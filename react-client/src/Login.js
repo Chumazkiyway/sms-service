@@ -13,35 +13,61 @@ class Login extends Component {
   }
   onChange(e) {
     switch (e.target.name) {
-      case 'login':
+      case 'loginLog':
           this.setState({login:e.target.value});
         break;
-      case 'pass':
+      case 'passLog':
         this.setState({pass:e.target.value});
+        break;
+      default:
         break;
 
     }
   }
   handleSubmit(e){
-    e.preventDefault();
-    console.log(e.target.value);
+    
+    console.log(this.state.login);
+    console.log(this.state.pass);
+    
+    if(this.validatePass()) {
+      console.log('submit');
+      fetch('/', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          login: this.state.login,
+          pass: this.state.pass
+        }),
+      });
+    }
+    else alert('Ошибка входа');
   }
-
+  validatePass(){
+    return true;
+  }
+  componentDidMount()
+  {
+    
+  }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
         <div className="pos-center-block">
               <div className="form-group">
                 <label className="control-label">Email</label>
-                <input type="email" onChange={this.onChange} name="loginLog" className="form-control" id="email1" placeholder="Введите email"/>
+                <input type="email" onChange={this.onChange} name="loginLog" className="form-control" id="email1" placeholder="Введите логин" required/>            
               </div>
               <div className="form-group">
                 <label htmlFor="password" className="control-label">Password</label>
-                <input type="password" onChange={this.onChange} name="passLog" className="form-control" id="password1" placeholder="Введите пароль"/>
+                <input type="password" onChange={this.onChange} name="passLog" className="form-control" id="password1" placeholder="Введите пароль" required/>
+                
               </div>
               <div className="form-group">
                 <Link to="/register"><button type="button" className="btn btn-link">Регистрация</button></Link>                         
-                <Link to="/send"><button type="button"  className="btn btn-success  btn-block">Войти</button></Link>          
+                <Link to="/send"><button type="button" onClick={this.handleSubmit}  className="btn btn-success  btn-block">Войти</button></Link>          
               </div>
         </div>
       </form>

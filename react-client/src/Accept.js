@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { Link } from 'react-router-dom';
 import DynamicTable from './DynamicTable';
 const TABLE_COLUMNS = [
@@ -7,13 +7,6 @@ const TABLE_COLUMNS = [
     'Номер телефона',
     'Тим сообщения'
 ];
-const data = [
-    ['Alexandr', 'Volik','0930685396','SMS'],
-    ['Alexandr', 'Volik','0930685396','SMS'],
-    ['Alexandr', 'Volik','0930685396','SMS'],
-    ['Alexandr', 'Volik','0930685396','SMS']
-  ];
-
 class Accept extends React.Component {
             
   constructor(props){
@@ -47,7 +40,7 @@ class Accept extends React.Component {
     return (
       <div className="pos-center-block">
         <div className="table-responsive">
-          <DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS}/>
+          <DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} id="acceptTable"/>
         </div>
           <span>Количество смс сообщений: </span><br/>
           <span>Количество viber сообщений: </span><br/>

@@ -52,7 +52,7 @@ class Send extends Component {
 	  
 	}
 	componentDidUpdate() {
-		let t =  document.getElementById("dyntab");
+		let t =  document.getElementById("sendTable");
 	  let tds = t.getElementsByTagName("td");
 	    for (var i=0; i<tds.length; i++){
 
@@ -61,9 +61,9 @@ class Send extends Component {
 	}
 	onMyClickAddRow() {
 
-	    document.getElementById("dyntab").insertRow(-1).innerHTML = '<td>QQ</td><td>qq</td><td>Qq</td>';
+	    document.getElementById("sendTable").insertRow(-1).innerHTML = '<td>QQ</td><td>qq</td><td>Qq</td>';
 
-	    let t =  document.getElementById("dyntab");
+	    let t =  document.getElementById("sendTable");
 	    let tds = t.getElementsByTagName("td");
 	    for (var i=0; i<tds.length; i++){
 
@@ -77,7 +77,7 @@ class Send extends Component {
 					<input type="file" className="custom-file-input" id="customFile" accept=".xls, .xls"/>
 					<label className="custom-file-label" htmlFor="customFile">Выбирите файл</label>
 				</div>
-				<DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS}/>
+				<DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} id="sendTable"/>
 				<div className="btnAdd">
 					<input type="button" className="btn btn-info" onClick={this.onMyClickAddRow} value="Добавить" name="submit"/>
 				</div>
