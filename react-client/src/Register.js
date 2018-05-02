@@ -15,54 +15,76 @@ class Register extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   onChange(e) {
-    console.log(e.target.name);
-    console.log(e.target.value);
     switch (e.target.name) {
       case 'loginReg':
           this.setState({login:e.target.value});
         break;
       case 'passReg1':
-          this.setState({pass1:e.target.value, passIsValid: this.validatePass(e.target.value,this.state.pass2)});
-        break;
+          this.setState({pass1:e.target.value,passIsValid:this.validatePass(e.target.value,this.state.pass2)});   
+          break;
       case 'passReg2':
-          this.setState({pass2:e.target.value,passIsValid: this.validatePass(e.target.value,this.state.pass1)});    
+          this.setState({pass2:e.target.value, passIsValid:this.validatePass(e.target.value,this.state.pass1)});            
         break;
       default:
         break;
 
     }
   }
-  handleSubmit(e) {
+  async handleSubmit(e) {
+    e.preventDefault();
     console.log(this.state.login);
     console.log(this.state.pass1);
     console.log(this.state.pass2);
-    
-    if(this.validatePass(this.state.pass1,this.state.pass2)) {
-      console.log('submit');
-    
-      fetch('/register', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          login: this.state.login,
-          pass: this.state.pass2
-        }),
-      });
+
+    let valLog = await this.validateLogin();
+    let valPass = this.validatePass(this.state.pass2,this.state.pass1);
+
+    //this.setState({loginIsValid: valLog});
+    //this.setState({passIsValid: valPass});
+
+    if(valLog && valPass) {
+      alert('Вы зарегистрировались!');
     }
-    else alert('пароли не одинаковы');
+    else if(!valPass) {
+      alert('пароли не одинаковы');
+      
+    }
+    else if(!valLog) {
+      alert('логин занят!');
+      
+    }
   }
   validatePass(pass1,pass2) {
-    return pass1 === pass2;
+    let passIsValid = (pass1 === pass2) ? true : false;
+    return passIsValid;
+
   }
-  validateLogin(login) {
-      return true;
+  async validateLogin() {
+    let IsValid;
+    await fetch('/register', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: this.state.login,
+        pass: this.state.pass1
+      }),
+    })
+    .then(res => res.json())
+    .then(loginIsValid => {
+        console.log("login is valid: " + loginIsValid);
+        IsValid = loginIsValid;
+
+    })
+    .catch (function (error) {
+        console.log('Request failed', error);
+    });
+    return IsValid;
   }
+
   render() {
-    let loginColor = this.state.loginIsValid===true?".success":".has-error";
-    let passColor = this.state.passIsValid===true?".success":".has-error";
     return (
       <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
         <div className="pos-center-block">

@@ -10,18 +10,45 @@ const DynamicTableHeader = ({columns}) => {
     </thead>
   )
 }
-const DynamicTableBody = ({data}) => {
-  return(
-    <tbody>
-      {data.map((element, index) =>
-        <tr key={index}>
-          {element.map((item, i) =>
-            <td key={i}>{item}</td>
-          )}
-        </tr>
-      )}
-    </tbody>
-  )
+class DynamicTableBody extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      data: this.props.data,
+      isReadOnly: this.props.isReadOnly
+    };   
+  }
+  onChangeTableElement(i, j, e) {
+    console.log(e.target.value + " "+i+" "+j);
+    let table = this.props.data;
+    table[i][j] = e.target.value;
+    
+    this.setState({data: table});
+    console.log(this.state.data);
+  }
+  render(){
+    let isReadOnly = this.state.isReadOnly;
+    return(
+      <tbody>
+        {this.props.data.map((element, i) =>
+          isReadOnly ?
+          <tr key={i}>
+
+            {element.map((item, j) =>
+              <td key={j}>{item}</td>
+            )}
+          </tr>
+          :
+          <tr key={i}>
+
+            {element.map((item, j) =>
+              <td key={j}><input type="text" id={i.toString()+' '+j.toString()} onChange={this.onChangeTableElement.bind(this, i, j)} ></input></td>
+            )}
+          </tr>
+        )}
+      </tbody>
+    );
+  }
 }
 
 export default class DynamicTable extends React.Component {
@@ -31,6 +58,7 @@ export default class DynamicTable extends React.Component {
     this.state = {
       data: [],
       columns: [],
+      isReadOnly: this.props.isReadOnly
     }
   }
 
@@ -48,7 +76,7 @@ export default class DynamicTable extends React.Component {
 	  return (
 	    <table className="table table-bordered table-hover" id={this.state.id}>
 	      <DynamicTableHeader columns={this.state.columns} />
-	      <DynamicTableBody data={this.state.data} />
+	      <DynamicTableBody isReadOnly={this.state.isReadOnly} data={this.state.data} />
 	    </table>
 	  );
 	}

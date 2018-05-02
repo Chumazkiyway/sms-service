@@ -5,15 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
 
-var indexRouter = require('./routes/login');
+var loginRouter = require('./routes/login');
 var acceptRouter = require('./routes/accept');
 var sendRouter = require('./routes/send');
 var regRouter = require('./routes/register');
  
-//database
-
-var db = require('./db/dbRequests.js')
-db.setUpConnection(); 
 
 var app = express();
 
@@ -27,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/build')));
 
-app.use('/', indexRouter);
+app.use('/', loginRouter);
 app.use('/accept', acceptRouter);
 app.use('/send', sendRouter);
 app.use('/register', regRouter);

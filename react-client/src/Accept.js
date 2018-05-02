@@ -40,7 +40,7 @@ class Accept extends React.Component {
     return (
       <div className="pos-center-block">
         <div className="table-responsive">
-          <DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} id="acceptTable"/>
+          <DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} isReadOnly={true} id="acceptTable"/>
         </div>
           <span>Количество смс сообщений: </span><br/>
           <span>Количество viber сообщений: </span><br/>

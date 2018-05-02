@@ -6,7 +6,7 @@ class Header extends React.Component {
                 return (
                   <nav className="navbar navbar-success">
                     <div className="container">
-                      <h4>SMS Gateway</h4>
+                      <h4>{this.props.headerName}</h4>
                     </div>
                   </nav>
                 );

@@ -92,6 +92,10 @@ margin-top: 30px;
   position: relative;
   float: right;
 }
+.btnDelete{
+  position: relative;
+  float: left;
+}
 .success .form-control:focus {
   border-color: #5cb85c;  box-shadow: none; -webkit-box-shadow: none;
 } 

@@ -24,29 +24,38 @@ class Login extends Component {
 
     }
   }
-  handleSubmit(e){
-    
+  async handleSubmit(e){
+    e.preventDefault();
     console.log(this.state.login);
     console.log(this.state.pass);
-    
-    if(this.validatePass()) {
-      console.log('submit');
-      fetch('/', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          login: this.state.login,
-          pass: this.state.pass
-        }),
-      });
-    }
+    let user = await this.isMyUser();
+    if(user)
+      alert('Вы вошли!');
     else alert('Ошибка входа');
   }
-  validatePass(){
-    return true;
+  async isMyUser(){
+    let isUserValid;
+    await fetch('/', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: this.state.login,
+        pass: this.state.pass
+      }),
+    })
+    .then(res => res.json())
+    .then(isUser => {
+        console.log(isUser);
+        isUserValid = isUser;
+
+    })
+    .catch (function (error) {
+        console.log('Request failed', error);
+    });
+    return isUserValid;
   }
   componentDidMount()
   {
@@ -54,7 +63,7 @@ class Login extends Component {
   }
   render() {
     return (
-      <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
+      <form className="needs-validation" onSubmit={this.handleSubmit} noValidate> 
         <div className="pos-center-block">
               <div className="form-group">
                 <label className="control-label">Email</label>
