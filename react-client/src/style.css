@@ -2,15 +2,16 @@
   margin-left: 10%;
   margin-right: 10%;
   margin-top: 100px;
-
   width: auto;
   height: auto;
+
 }
 body {
   margin: 0;
   padding: 0;
   position: relative;
   display: block;
+  background-color: #D0F0C0;
 }
 .my-btn-pos-1 {
 position: relative;
@@ -29,7 +30,6 @@ margin-top: 50px;
 .navbar-success{
   background-color: #28a745;
 }
-
 nav h4
 {
   color: white;

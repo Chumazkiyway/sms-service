@@ -1,6 +1,8 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 import DynamicTable from './DynamicTable';
+import XLSX from 'xlsx';
+
 const TABLE_COLUMNS = [
     'Фамилия',
     'Имя',
@@ -27,6 +29,11 @@ class Accept extends React.Component {
         this.setState({ displayedTable });
         console.log(this.state.displayedTable);
       });
+      
+      //let workbook = XLSX.readFile('../../data/clients.xlsx');
+      //let first_worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      //let data = XLSX.utils.sheet_to_json(first_worksheet, {header:1});
+      //console.log(data);
   }
 
   send() {

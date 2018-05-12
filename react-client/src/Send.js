@@ -35,9 +35,6 @@ class Send extends Component {
 	    
 	}
 	
-	onChangeTableElement(e) {
-		console.log(e);
-	}
 	render() {
 		return (
 			<div className="pos-center-block">
@@ -52,10 +49,11 @@ class Send extends Component {
 				<div className="btnDelete">
 					<input type="button" className="btn btn-danger" onClick={this.onMyClickDeleteRow} value="Удалить" name="submit"/>
 				</div>
+
 				<div className="form-group">
 				    <label htmlFor="qqqq">Введите сообщение</label>
 				    <textarea className="form-control" id="qqqq" rows="5"></textarea>
-				    <Link to="/accept"><input type="button" className="btn btn-success" value="Отправить" name="submit"/></Link>
+				    <Link to="/accept"><input type="button" className="btn btn-success btn-block" value="Отправить" name="submit"/></Link>
 				</div>
 			</div>
 

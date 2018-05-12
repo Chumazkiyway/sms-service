@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
+var passport = require('passport');
 
 var loginRouter = require('./routes/login');
 var acceptRouter = require('./routes/accept');
@@ -23,10 +24,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/build')));
 
+//set up routes
 app.use('/', loginRouter);
+app.use('/register', regRouter);
 app.use('/accept', acceptRouter);
 app.use('/send', sendRouter);
-app.use('/register', regRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
