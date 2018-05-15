@@ -1,20 +1,19 @@
 
 module.exports.sendMsg = function (xmlBody){
-  
+
   var http = require("http");
+
+
   var postRequest = {
-  	host: "gate.smsclub.mobi",
+    host: "gate.smsclub.mobi",
     path: "/xml/",
     port: 80,
     method: "POST",
     headers: {
-    	'Accept': 'text/xml',
+      'Accept': 'text/xml',
       'Content-Type': 'text/xml',
     }
   };
-
-  var buffer = "";
-
   var req = http.request( postRequest, function( res ){
 
      console.log( 'STATUS:' + res.statusCode);
@@ -29,6 +28,8 @@ module.exports.sendMsg = function (xmlBody){
      } );
 
   });
+
+  var buffer = "";
 
   req.on('error', function(e) {
       console.log('problem with request: ' + e.message);

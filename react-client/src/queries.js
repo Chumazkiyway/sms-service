@@ -1,3 +1,4 @@
+// /
 export async function postQuerieValidateLogin(login,pass)
 {
 	let isUserValid;
@@ -26,7 +27,7 @@ export async function postQuerieValidateLogin(login,pass)
     return isUserValid;
 
 }
-
+// /reg
 export async function postQuerieRegistration(login,pass1)
 {
 	let IsValid;
@@ -52,6 +53,8 @@ export async function postQuerieRegistration(login,pass1)
     });
     return IsValid;
 }
+
+// /send
 export async function postQuerieSend(subscribers,text)
 {
 	await fetch('/send', {
@@ -67,9 +70,9 @@ export async function postQuerieSend(subscribers,text)
       .then(res => res.json())
       .then(obj => {
         if(obj.result) {
-          sessionStorage.setItem('subscribers',obj.subscribersTypeSMS);
+          sessionStorage.setItem('subscribers',JSON.stringify(obj.subscribersTypeSMS));
           sessionStorage.setItem('text',text); 
-          sessionStorage.setItem('smsConst',obj.smsCost);    
+          sessionStorage.setItem('smsConst',obj.smsCost);
         }
                    
       })
@@ -78,6 +81,7 @@ export async function postQuerieSend(subscribers,text)
       });
 }
 
+// / accept
 export async function postQuerieAccept(subscribers,text)
 {
   await fetch('/accept', {

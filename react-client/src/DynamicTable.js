@@ -23,7 +23,6 @@ class DynamicTableBody extends React.Component {
     table[i][j] = e.target.value;
     
     this.setState({data: table});
-    console.log(this.state.data);
   }
   render(){
     let isReadOnly = this.state.isReadOnly;

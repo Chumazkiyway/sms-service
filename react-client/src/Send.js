@@ -81,6 +81,7 @@ class Send extends Component {
     console.log(this.state.displayedTable);
     let subscribers = [];
     let table = this.state.displayedTable;
+
     for (let i = 0; i < table.length; i++) {
 		  subscribers.push({
 		  	lastname: table[i][0],
@@ -88,7 +89,6 @@ class Send extends Component {
 		  	phone: table[i][2]
 		  });
 		}
-		
     await queries.postQuerieSend(subscribers,this.state.text);
     this.props.history.push('/accept');
 	}
