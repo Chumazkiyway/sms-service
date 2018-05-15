@@ -82,8 +82,9 @@ export async function postQuerieSend(subscribers,text)
 }
 
 // / accept
-export async function postQuerieAccept(subscribers,text)
+export async function postQuerieAccept(subscribers,text, login, pass, alphaname )
 {
+
   await fetch('/accept', {
         method: 'POST',
         headers: {
@@ -91,13 +92,17 @@ export async function postQuerieAccept(subscribers,text)
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          login: login,
+          pass: pass,
+          alphaname: alphaname,
           subscribers:subscribers,
-          text:text,
+          text:text
         }),
       })
       .then(res => res.json())
       .then(obj => {
-                     
+            if(obj.res != true)
+              alert("Ooops! Something was wrong...");
       })
       .catch (function (error) {
           console.log('Request failed', error);

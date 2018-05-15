@@ -23,6 +23,8 @@ class Accept extends React.Component {
     this.state={
       displayedTable: []
     };
+    this.cancel = this.cancel.bind(this);
+    this.send = this.send.bind(this);
   }
   componentWillMount()
   {
@@ -54,8 +56,14 @@ class Accept extends React.Component {
       //console.log(data);
   }
 
-  async send() {
-    await queries.postQuerieAccept(this.state.displayedTable,this.state.text);
+  async send(e) {
+    e.preventDefault();
+    let login = sessionStorage.getItem('login');
+    let pass = sessionStorage.getItem('pass');
+    let alphaname = 'club_bulk';
+    let text = sessionStorage.getItem('text');
+    console.log(this.state.displayedTable);
+    await queries.postQuerieAccept(this.state.displayedTable,text, login, pass, alphaname);
     this.props.history.push('/send');
   };
   cancel() {
@@ -69,7 +77,6 @@ class Accept extends React.Component {
       totalPrice =  tab.lenght* cost;
     }
 
-      console.log(tab);
     return (
       <div className="pos-center-block">
         <div className="table-responsive">

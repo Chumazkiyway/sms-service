@@ -29,8 +29,7 @@ router.post('/', (req, res) => {
       result: isSucces
     };
 
-    console.log(newTable);
-    console.log(obj);
+
     res.json(obj);
 });
 

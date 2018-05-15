@@ -2,15 +2,22 @@ var express = require('express');
 var router = express.Router();
 var sendSms = require('../modules/sendToSmsGateway');
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  
+router.post('/', (req, res) => {
+  var strPhones = "";
+  var phones = req.body.subscribers;
 
-var login = "380953346403"; //req.body.login
-var password = "9o8w2ts"; //req.body.password
-var alphaName = "club_bulk"; //req.body.alphaName
-var abonent ="380631001769;380930285396";
-var text = "Добрый час"; //req.body.text
+  for(let i = 0; i<phones.length; i++ ){
+    if(i!= 0)strPhones += ';';
+    strPhones += phones[i][2];
+  }
 
+//var password = "9o8w2ts"
+//"380631001769;380930285396";
+var login = req.body.login;
+var password = req.body.pass;
+var alphaName = req.body.alphaname;
+var abonents = strPhones;
+var text = req.body.text;
 
 
 var xmlBody = "<?xml version='1.0' encoding='utf-8'?>" +
@@ -18,19 +25,18 @@ var xmlBody = "<?xml version='1.0' encoding='utf-8'?>" +
                     "<username><![CDATA["+ login +"]]></username>" +
                     "<password><![CDATA["+ password +"]]></password>" +
                     "<from><![CDATA[" + alphaName +"]]></from>" +
-                    "<to><![CDATA[" + abonent + "]]></to>" +
+                    "<to><![CDATA[" + abonents + "]]></to>" +
                     "<text><![CDATA[" + text +"]]></text>" +
               "</request_sendsms>";
 
+console.log(login);
+console.log(password);
+console.log(alphaName);
+console.log(abonents);
+console.log(text);
+console.log(xmlBody);
 sendSms.sendMsg(xmlBody);
-
-  // res.json([
-  //   ['Alexandr', 'Volik','0930685396','SMS'],
-  //   ['Alexandr', 'Volik','0930685396','SMS'],
-  //   ['Alexandr', 'Volik','0930685396','SMS'],
-  //   ['Alexandr', 'Volik','0930685396','SMS']
-  // ]);
-  
+res.json({res:true});
 });
 
 module.exports = router;

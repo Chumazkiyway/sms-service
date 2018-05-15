@@ -39,7 +39,6 @@ class Login extends Component {
     let user = await queries.postQuerieValidateLogin(this.state.login,this.state.pass);
     
     if(user){
-      alert('Вы вошли!');
       sessionStorage.setItem('login',this.state.login);
       sessionStorage.setItem('pass',this.state.pass);
       this.props.history.push('/send');
