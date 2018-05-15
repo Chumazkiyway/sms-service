@@ -4,10 +4,14 @@ import { Link } from 'react-router-dom';
 class Header extends React.Component {
   constructor(props){
     super(props);
-    this.state={
-      listMenu:this.props.listMenu
-    };
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
+
+  handleLogOut(e){
+    sessionStorage.removeItem('login');
+    sessionStorage.removeItem('pass');
+  }
+  
   render() {
     return (
       <nav className="navbar navbar-expand-lg  navbar-dark navbar-success">
@@ -18,17 +22,23 @@ class Header extends React.Component {
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
-          {this.state.listMenu.map((element, index) =>
+          {this.props.listMenu.map((element, index) =>
             <li key={index} className="nav-item">
               <Link  className="nav-link" to={element.toLowerCase()}>{element}</Link>
             </li>
             
           )}        
-        </ul>       
+        </ul>
+    
+          <Link to="/login">
+            <button className="btn btn-outline-light my-2 my-sm-0" type="submit" onClick={this.handleLogOut} >Log in</button>
+          </Link>   
       </div>
     </nav>
     );
   }
 }
-
+Header.defaultProps = {
+    listMenu: ['123']
+  };
 export default Header

@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 	// Comment out this line:
@@ -14,6 +13,11 @@ router.get('/', function(req, res, next) {
     ['Alexandr', 'Volik','0930685396']
   ]);
   
+});
+
+router.post('/', (req, res) => {
+	console.log('subscribers');
+    console.log(req.body.subscribers);
 });
 
 module.exports = router;

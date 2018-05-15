@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom';
+import * as queries from './queries';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 class Register extends Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  }
   constructor(props){
     super(props);
     this.state={
@@ -35,15 +42,19 @@ class Register extends Component {
     console.log(this.state.login);
     console.log(this.state.pass1);
     console.log(this.state.pass2);
-
-    let valLog = await this.validateLogin();
-    let valPass = this.validatePass(this.state.pass2,this.state.pass1);
+    let valPass = false;
+    let valLog = false;
+    valPass = this.validatePass(this.state.pass2,this.state.pass1);
+    if(valPass)
+      valLog = await queries.postQuerieRegistration(this.state.login,this.state.pass1);
+    
 
     //this.setState({loginIsValid: valLog});
     //this.setState({passIsValid: valPass});
 
     if(valLog && valPass) {
       alert('Вы зарегистрировались!');
+      this.props.history.push('/login');
     }
     else if(!valPass) {
       alert('пароли не одинаковы');
@@ -57,33 +68,8 @@ class Register extends Component {
   validatePass(pass1,pass2) {
     let passIsValid = (pass1 === pass2) ? true : false;
     return passIsValid;
-
   }
-  async validateLogin() {
-    let IsValid;
-    await fetch('/register', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: this.state.login,
-        pass: this.state.pass1
-      }),
-    })
-    .then(res => res.json())
-    .then(loginIsValid => {
-        console.log("login is valid: " + loginIsValid);
-        IsValid = loginIsValid;
-
-    })
-    .catch (function (error) {
-        console.log('Request failed', error);
-    });
-    return IsValid;
-  }
-
+  
   render() {
     return (
       <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
@@ -109,4 +95,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default withRouter(Register);

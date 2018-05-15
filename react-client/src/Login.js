@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import * as queries  from './queries';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 class Login extends Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  }
   constructor(props){
     super(props);
     this.state={
@@ -28,38 +36,18 @@ class Login extends Component {
     e.preventDefault();
     console.log(this.state.login);
     console.log(this.state.pass);
-    let user = await this.isMyUser();
-    if(user)
-      alert('Вы вошли!');
-    else alert('Ошибка входа');
-  }
-  async isMyUser(){
-    let isUserValid;
-    await fetch('/', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        login: this.state.login,
-        pass: this.state.pass
-      }),
-    })
-    .then(res => res.json())
-    .then(isUser => {
-        console.log(isUser);
-        isUserValid = isUser;
-
-    })
-    .catch (function (error) {
-        console.log('Request failed', error);
-    });
-    return isUserValid;
-  }
-  componentDidMount()
-  {
+    let user = await queries.postQuerieValidateLogin(this.state.login,this.state.pass);
     
+    if(user){
+      alert('Вы вошли!');
+      sessionStorage.setItem('login',this.state.login);
+      sessionStorage.setItem('pass',this.state.pass);
+      this.props.history.push('/send');
+    }
+    else {
+      alert('Ошибка входа');
+
+    }
   }
   render() {
     return (
@@ -76,7 +64,7 @@ class Login extends Component {
               </div>
               <div className="form-group">
                 <Link to="/register"><button type="button" className="btn btn-link">Регистрация</button></Link>                         
-                <Link to="/send"><button type="button" onClick={this.handleSubmit}  className="btn btn-success  btn-block">Войти</button></Link>          
+                <Link to="/send"><button type="submit" onClick={this.handleSubmit}  className="btn btn-success btn-block ">Войти</button></Link>          
               </div>
         </div>
       </form>
@@ -84,4 +72,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

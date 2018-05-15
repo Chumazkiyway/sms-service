@@ -2,6 +2,9 @@ import React  from 'react';
 import { Link } from 'react-router-dom';
 import DynamicTable from './DynamicTable';
 import XLSX from 'xlsx';
+import * as queries  from './queries';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 const TABLE_COLUMNS = [
     'Фамилия',
@@ -10,25 +13,38 @@ const TABLE_COLUMNS = [
     'Тим сообщения'
 ];
 class Accept extends React.Component {
-            
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  }         
   constructor(props){
     super(props);
     this.state={
       displayedTable: []
     };
   }
-
+  componentWillMount()
+  {
+    /*let login = sessionStorage.getItem('login',this.state.login);
+    let pass = sessionStorage.getItem('pass',this.state.login);
+    let isValid = queries.getQueriepostQuerieValidateLogin(login,pass,'/accept');
+    console.log(isValid);
+    if(!isValid)
+      this.history.push('/login');
+    else alert('вы не авторезированы!');
+    */
+  }
   componentDidMount() {
-    /*fetch('/accept')
-      .then(res => res.json())
-      .then(accept => this.setState({ accept }));
-*/
-      fetch('/accept')
-      .then(res => res.json())
-      .then(displayedTable => {        
-        this.setState({ displayedTable });
-        console.log(this.state.displayedTable);
-      });
+
+      let subscribers = sessionStorage.getItem('subscribers');
+      let table = [];
+      if(subscribers != null) {
+        for (let i = 0; i < subscribers.length; i++) {
+        subscribers.push([subscribers[i].firstname,subscribers[i].lastname,subscribers[i].phone,subscribers[i].smsType]);
+        }
+      }
+      this.setState({displayedTable: table});
       
       //let workbook = XLSX.readFile('../../data/clients.xlsx');
       //let first_worksheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -36,11 +52,12 @@ class Accept extends React.Component {
       //console.log(data);
   }
 
-  send() {
-    alert("hi");
+  async send() {
+    await queries.postQuerieAccept(sessionStorage.getItem('subscribers'),this.state.text);
+    this.props.history.push('/send');
   };
   cancel() {
-    alert("cancel");
+    sessionStorage.removeItem('subscribers');
   };
   render() {
 
@@ -60,4 +77,4 @@ class Accept extends React.Component {
   }
 }
 
-export default Accept;
+export default withRouter(Accept);
