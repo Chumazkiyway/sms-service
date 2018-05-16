@@ -12,7 +12,10 @@ router.post('/', (req,res) => {
      	var userIsCreate = false;
      	var userLogin = req.body.login;
 		var userPass = req.body.pass;
-		var user = {login: userLogin, pass: userPass};
+		var user = {
+			login: userLogin, 
+			pass: userPass
+		};
 		const db = database.db("usersService");
         db.collection("users").find({login: userLogin, pass: userPass}).toArray(function(err, users){                 
             console.log(users);

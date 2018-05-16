@@ -21,11 +21,10 @@ router.post('/', (req, res) => {
       }) 
     }
 
-    let price = 0.26;
     isSucces = true;
     let obj = {
       subscribersTypeSMS : newTable,
-      smsCost: price,
+      smsCost: global.smsPrice,
       result: isSucces
     };
 

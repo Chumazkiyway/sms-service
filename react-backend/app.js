@@ -10,7 +10,8 @@ var loginRouter = require('./routes/login');
 var acceptRouter = require('./routes/accept');
 var sendRouter = require('./routes/send');
 var regRouter = require('./routes/register');
- 
+
+var getSmsPrice = require('./modules/getSmsPrice'); 
 
 var app = express();
 // view engine setup
@@ -45,10 +46,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//////////////////////
-app.post('/', (req,res) => {
-	
-
-});
 
 module.exports = app;
