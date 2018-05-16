@@ -29,13 +29,6 @@ var xmlBody = "<?xml version='1.0' encoding='utf-8'?>" +
                     "<text><![CDATA[" + text +"]]></text>" +
               "</request_sendsms>";
 
-console.log(login);
-console.log(password);
-console.log(alphaName);
-console.log(abonents);
-console.log(text);
-console.log(xmlBody);
-sendSms.sendMsg(xmlBody);
 res.json({res:true});
 });
 
