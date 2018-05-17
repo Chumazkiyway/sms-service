@@ -1,4 +1,4 @@
-// /
+// log
 export async function postQuerieValidateLogin(login,pass)
 {
 	let isUserValid;
@@ -14,10 +14,13 @@ export async function postQuerieValidateLogin(login,pass)
       }),
     })
     .then(res => res.json())
-    .then(isUser => {
-        console.log(isUser);
-        isUserValid = isUser;
-
+    .then(obj => {
+        isUserValid = obj.res;
+        console.log(obj);
+        sessionStorage.setItem('token',obj.token);
+        sessionStorage.setItem('pattern',obj.pattern);
+        sessionStorage.setItem('alphaname',obj.alphaname);
+        sessionStorage.setItem('balance',obj.balance);
     })
     .catch (function (error) {
         console.log('Request failed', error);
@@ -57,6 +60,7 @@ export async function postQuerieRegistration(login,pass1)
 // /send
 export async function postQuerieSend(subscribers,text)
 {
+  let isUserValid;
 	await fetch('/send', {
         method: 'POST',
         headers: {
@@ -74,17 +78,18 @@ export async function postQuerieSend(subscribers,text)
           sessionStorage.setItem('text',text); 
           sessionStorage.setItem('smsConst',obj.smsCost);
         }
-                   
+          isUserValid = obj.result;
       })
       .catch (function (error) {
           console.log('Request failed', error);
       });
+      return isUserValid;
 }
 
 // / accept
 export async function postQuerieAccept(subscribers,text, login, pass, alphaname )
 {
-
+  let isUserValid;
   await fetch('/accept', {
         method: 'POST',
         headers: {
@@ -102,11 +107,40 @@ export async function postQuerieAccept(subscribers,text, login, pass, alphaname 
       .then(res => res.json())
       .then(obj => {
             if(obj.res != true)
-              alert("Ooops! Something was wrong...");
+              console.log(obj.result);
+          isUserValid = obj.result;
       })
       .catch (function (error) {
           console.log('Request failed', error);
       });
+      return isUserValid;
+}
+export async function postQuerieSettings(login,pass,token,alphaname,pattern)
+{
+  let isUserValid;
+  
+  await fetch('/update', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: login,
+        pass: pass,
+        token: token,
+        alphaname: alphaname,
+        pattern: pattern
+      }),
+    })
+    .then(res => res.json())
+    .then(obj => {
+        isUserValid = obj.res;
+    })
+    .catch (function (error) {
+        console.log('Request failed', error);
+    });
+    return isUserValid;
 }
 export async function getQueriepostQuerieValidateLogin(login,pass,request_url)
 {
@@ -121,7 +155,6 @@ export async function getQueriepostQuerieValidateLogin(login,pass,request_url)
     .then((response) => 
       {
         response.json() // << This is the problem
-
       })
     .then((responseData) => { // responseData = undefined
 
@@ -133,3 +166,4 @@ export async function getQueriepostQuerieValidateLogin(login,pass,request_url)
      .done();
 
 }
+

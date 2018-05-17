@@ -57,8 +57,13 @@ class Accept extends React.Component {
     let alphaname = 'club_bulk';
     let text = sessionStorage.getItem('text');
     console.log(this.state.displayedTable);
-    await queries.postQuerieAccept(this.state.displayedTable,text, login, pass, alphaname);
-    this.props.history.push('/send');
+     let user = await queries.postQuerieAccept(this.state.displayedTable,text, login, pass, alphaname);
+     if(user){
+        this.props.history.push('/send'); 
+     }
+     else{
+      alert('You are not autorized');
+     }
   };
   cancel() {
     sessionStorage.removeItem('subscribers');
@@ -68,7 +73,7 @@ class Accept extends React.Component {
     let tab = this.state.displayedTable, 
         totalPrice = 0;
     if(tab != null){
-      totalPrice =  tab.lenght* cost;
+      totalPrice =  tab.length* cost;
     }
 
     return (

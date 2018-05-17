@@ -8,6 +8,7 @@ import Accept from './Accept';
 import Send from './Send';
 import Undefined from './Undefined';
 import ModalSettings  from './modal/ModalSettings';
+import * as queries from '../js/queries';
 var menu = ['Send','Accept'];
 class App extends Component {
 
@@ -28,6 +29,7 @@ class App extends Component {
 		this.openSettings = this.openSettings.bind(this);
 		this.saveSettings = this.saveSettings.bind(this);
 		this.closeSettings = this.closeSettings.bind(this);
+		this.setUserInfo = this.setUserInfo.bind(this);
 		
 	}
 	changeLogButton()
@@ -42,10 +44,30 @@ class App extends Component {
 		}
 
 	}
+	setUserInfo(token,alphaname,pattern){
+		this.setState({
+			token: token,
+			alpha: alphaname,
+			pattern: pattern,
+		});
+	}
+
 	componentWillMount() {
-		if(sessionStorage.getItem('login') != null)
-			this.setState({logButton:{editButtonOutOrIn: true,
-			buttonText: 'Log out'},listMenu:menu});
+		let token = sessionStorage.getItem('token');
+		let alphaname = sessionStorage.getItem('alphaname');
+		let pattern = sessionStorage.getItem('pattern');
+		if(sessionStorage.getItem('login') != null) {
+			this.setState({
+				logButton:{
+					editButtonOutOrIn: true,
+					buttonText: 'Log out'},
+				listMenu:menu,
+				token: token,
+				alpha: alphaname,
+				pattern: pattern,	
+			});
+
+		}
 	}
 	openSettings(){
 		this.setState({ModalIsOpen: true});
@@ -53,11 +75,12 @@ class App extends Component {
 	closeSettings(){
 		this.setState({ModalIsOpen: false});
 	}
-	saveSettings(token,alpha,pattern){
+	async saveSettings(token,alpha,pattern){
 		sessionStorage.setItem('token',token);
-		sessionStorage.setItem('alpha',alpha);
+		sessionStorage.setItem('alphaname',alpha);
 		sessionStorage.setItem('pattern',pattern);
-		console.log(token);
+		let login = sessionStorage.getItem('login');
+		let pass = sessionStorage.getItem('pass');
 		this.setState({
 				ModalIsOpen: false,
 				token: token,
@@ -65,6 +88,9 @@ class App extends Component {
 				pattern: pattern,
 			}
 		);
+		let result = await queries.postQuerieSettings(login,pass,token,alpha,pattern);
+		if(!result)
+			alert('save err');
 
 	}
 	
@@ -80,11 +106,10 @@ class App extends Component {
 					token={this.state.token} pattern={this.state.patern} alpha={this.state.alpha} />
 					:
 					<div></div>
-				}
-				 
+				}		 
 	  		<Switch>
 		      <Route exact path='/' render={(props) => <Home/>} />
-		      <Route path='/login' render={(props) => <Login changeLogButton={this.changeLogButton}/>}/>
+		      <Route path='/login' render={(props) => <Login changeLogButton={this.changeLogButton} setUserInfo={this.setUserInfo}/>}/>
 		      <Route path='/register' render={(props) => <Register/>}/>
 		      <Route path='/accept' render={(props) => <Accept />}/>
 		      <Route path='/send' render={(props) => <Send/>}/>

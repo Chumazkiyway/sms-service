@@ -39,8 +39,13 @@ class Login extends Component {
       sessionStorage.setItem('login',this.state.login);
       sessionStorage.setItem('pass',this.state.pass);
       this.props.changeLogButton();
+      let token = sessionStorage.getItem('token');
+      let alphaname = sessionStorage.getItem('alphaname');
+      let pattern = sessionStorage.getItem('pattern');
+      await this.props.setUserInfo(token,alphaname,pattern);
       this.props.history.push('/send');
     }
+
     else {
       alert('Ошибка входа');
 

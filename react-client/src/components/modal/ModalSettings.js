@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+
 class ModalSettings extends React.Component {
   constructor(props){
     super(props);
@@ -26,7 +27,8 @@ class ModalSettings extends React.Component {
     let token = this.state.token;
     let alpha = this.state.alpha;
     let pattern = this.state.pattern;
-    this.props.saveSettings(token,alpha,pattern)
+    this.props.saveSettings(token,alpha,pattern);
+    
   }
   componentWillMount(){
     this.setState({
