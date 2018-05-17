@@ -89,9 +89,15 @@ class Send extends Component {
 		  	phone: table[i][2]
 		  });
 		}
-    await queries.postQuerieSend(subscribers,this.state.text);
-    this.props.history.push('/accept');
+	let user = await queries.postQuerieSend(subscribers,this.state.text);
+	if(user){
+    	this.props.history.push('/accept');
 	}
+     else{
+      alert('You are not autorized');
+     }
+	}
+	
 	render() {
 		let editTemplate = this.state.editTemplate;
 		let template = this.state.template;
