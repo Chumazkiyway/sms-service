@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as queries from './queries';
+import * as queries from '../js/queries';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 class Register extends Component {
@@ -75,19 +75,19 @@ class Register extends Component {
       <form className="needs-validation" onSubmit={this.handleSubmit} noValidate>
         <div className="pos-center-block">
           <div className="form-group">
-            <label htmlFor="email" >Email</label>
-            <input type="email" onChange={this.onChange} name="loginReg" className={"form-control"} id="email2" placeholder="Введите email"/>
+            <label htmlFor="email" >Login</label>
+            <input type="email" onChange={this.onChange} name="loginReg" className={"form-control"} id="email2" placeholder="Input login"/>
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" onChange={this.onChange} name="passReg1" className={"form-control "} id="password2" placeholder="Введите пароль"/>
+            <input type="password" onChange={this.onChange} name="passReg1" className={"form-control "} id="password2" placeholder="Input password"/>
           </div>
           <div className="form-group">
             <label htmlFor="password">Password again</label>
-            <input type="password"onChange={this.onChange} name="passReg2" className={"form-control "} id="password3" placeholder="Введите пароль"/>
+            <input type="password"onChange={this.onChange} name="passReg2" className={"form-control "} id="password3" placeholder="Input password again"/>
           </div>
           <div className="form-group">
-            <Link to="/"><button type="button" onClick={this.handleSubmit} className="btn btn-success btn-block">Зарегистрироваться</button></Link>
+            <Link to="/"><button type="button" onClick={this.handleSubmit} className="btn btn-success btn-block">Submit</button></Link>
           </div>
         </div>
       </form>

@@ -103,3 +103,9 @@ margin-top: 30px;
 .has-error .form-control:focus {
   box-shadow: none; -webkit-box-shadow: none;
 }
+
+.settingArea{
+  margin-top: 5px; 
+  margin-left: 80%; 
+  margin-right: 10px;
+}

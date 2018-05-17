@@ -1,18 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 class Header extends React.Component {
   constructor(props){
     super(props);
     this.handleLogOut = this.handleLogOut.bind(this);
   }
-
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  }   
   handleLogOut(e){
-    sessionStorage.removeItem('login');
-    sessionStorage.removeItem('pass');
+    //если пользователь авторезирован
+    if(this.props.logButton.editButtonOutOrIn) {
+      this.props.changeLogButton();
+      sessionStorage.removeItem('login');
+      sessionStorage.removeItem('pass'); 
+    }
+    this.props.history.push('/login');
   }
   
   render() {
+    let logButtonText = this.props.logButton.buttonText;
     return (
       <nav className="navbar navbar-expand-lg  navbar-dark navbar-success">
         <Link className="navbar-brand" to="/">{this.props.headerName}</Link>
@@ -30,9 +42,18 @@ class Header extends React.Component {
           )}        
         </ul>
     
-          <Link to="/login">
-            <button className="btn btn-outline-light my-2 my-sm-0" type="submit" onClick={this.handleLogOut} >Log in</button>
-          </Link>   
+          
+          <div className="btn-group mr-2" role="group" aria-label="First group">
+            {
+              this.props.logButton.editButtonOutOrIn?
+              <button  type="button" className="btn btn-outline-light my-2 my-sm-0" onClick={this.props.editSettings}>Settings</button>:
+              <div/>
+            }           
+            <button className="btn btn-outline-light my-2 my-sm-0" type="button" onClick={this.handleLogOut} >{logButtonText}</button>
+                
+          </div>
+         
+         
       </div>
     </nav>
     );
@@ -41,4 +62,4 @@ class Header extends React.Component {
 Header.defaultProps = {
     listMenu: ['123']
   };
-export default Header
+export default withRouter(Header);

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import * as queries  from './queries';
+import * as queries  from '../js/queries';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 class Login extends Component {
@@ -34,13 +33,12 @@ class Login extends Component {
   }
   async handleSubmit(e){
     e.preventDefault();
-    console.log(this.state.login);
-    console.log(this.state.pass);
     let user = await queries.postQuerieValidateLogin(this.state.login,this.state.pass);
     
-    if(user){
+    if(user){ 
       sessionStorage.setItem('login',this.state.login);
       sessionStorage.setItem('pass',this.state.pass);
+      this.props.changeLogButton();
       this.props.history.push('/send');
     }
     else {
@@ -53,17 +51,17 @@ class Login extends Component {
       <form className="needs-validation" onSubmit={this.handleSubmit} noValidate> 
         <div className="pos-center-block">
               <div className="form-group">
-                <label className="control-label">Email</label>
-                <input type="email" onChange={this.onChange} name="loginLog" className="form-control" id="email1" placeholder="Введите логин" required/>            
+                <label className="control-label">Login</label>
+                <input type="email" onChange={this.onChange} name="loginLog" className="form-control" id="email1" placeholder="Input login" required/>            
               </div>
               <div className="form-group">
                 <label htmlFor="password" className="control-label">Password</label>
-                <input type="password" onChange={this.onChange} name="passLog" className="form-control" id="password1" placeholder="Введите пароль" required/>
+                <input type="password" onChange={this.onChange} name="passLog" className="form-control" id="password1" placeholder="Input password" required/>
                 
               </div>
               <div className="form-group">
-                <Link to="/register"><button type="button" className="btn btn-link">Регистрация</button></Link>                         
-                <Link to="/send"><button type="submit" onClick={this.handleSubmit}  className="btn btn-success btn-block ">Войти</button></Link>          
+                <Link to="/register"><button type="button" className="btn btn-link">Registration</button></Link>                         
+                <Link to="/send"><button type="submit" onClick={this.handleSubmit}  className="btn btn-success btn-block ">Submit</button></Link>          
               </div>
         </div>
       </form>

@@ -1,16 +1,16 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
-import DynamicTable from './DynamicTable';
+import DynamicTable from '../utils/DynamicTable';
 import XLSX from 'xlsx';
-import * as queries  from './queries';
+import * as queries  from '../js/queries';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 const TABLE_COLUMNS = [
-    'Фамилия',
-    'Имя',
-    'Номер телефона',
-    'Тим сообщения'
+    'Lastname',
+    'Firstname',
+    'Phone',
+    'Type SMS'
 ];
 class Accept extends React.Component {
   static propTypes = {
@@ -47,13 +47,7 @@ class Accept extends React.Component {
         table.push([subscribers[i].firstname,subscribers[i].lastname,subscribers[i].phone,subscribers[i].smsType]);
         }
       }
-      console.log(table);
       this.setState({displayedTable: table});
-
-      //let workbook = XLSX.readFile('../../data/clients.xlsx');
-      //let first_worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      //let data = XLSX.utils.sheet_to_json(first_worksheet, {header:1});
-      //console.log(data);
   }
 
   async send(e) {
@@ -78,16 +72,18 @@ class Accept extends React.Component {
     }
 
     return (
-      <div className="pos-center-block">
-        <div className="table-responsive">
-          <DynamicTable data={tab} columns={TABLE_COLUMNS} isReadOnly={true} id="acceptTable"/>
+      <div>
+        <div className="pos-center-block">
+          <div className="table-responsive">
+            <DynamicTable data={tab} columns={TABLE_COLUMNS} isReadOnly={true} id="acceptTable"/>
+          </div>
+            <span>Количество смс сообщений: </span><br/>
+            <span>Количество viber сообщений: </span><br/>
+            <span> Цена отправки одного смс сообщения: {cost}грн</span><br/>
+            <span> Цена отправки смс сообщений: {totalPrice}грн</span><br/>
+            <Link to="/send"><button onClick={this.cancel} className="btn btn-danger my-btn-pos-1">Cancel</button></Link>
+            <Link to="/send"><button onClick={this.send} className="btn btn-success my-btn-pos-2">Submit</button></Link>
         </div>
-          <span>Количество смс сообщений: </span><br/>
-          <span>Количество viber сообщений: </span><br/>
-          <span> Цена отправки одного смс сообщения: {cost}грн</span><br/>
-          <span> Цена отправки смс сообщений: {totalPrice}грн</span><br/>
-          <Link to="/send"><button onClick={this.cancel} className="btn btn-danger my-btn-pos-1">Отменить</button></Link>
-          <Link to="/send"><button onClick={this.send} className="btn btn-success my-btn-pos-2">Отправить</button></Link>     
       </div>
     );
   }
