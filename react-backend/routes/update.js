@@ -25,13 +25,13 @@ router.post('/', (req, res) => {
 
                   if(userIsFind){
 	          		  	//update user data
-    	              // var token = req.body.token;
-        	          // var pattern = req.body.pattern;
-            	      // var alphaname = req.body.alphaname;
+    	              var token = req.body.token;
+        	          var pattern = req.body.pattern;
+            	      var alphaname = req.body.alphaname;
 
-                    var token = '4O2UxRIcqcuZ84B';
-                    var pattern = 'Bogdan Chumak';
-                    var alphaname = 'club_bulk';
+                   //  var token = '4O2UxRIcqcuZ84B';
+                   //  var pattern = 'Bogdan Chumak';
+                   //  var alphaname = 'club_bulk';
             	      db.collection("users")
             	      	.updateOne(
             	      		{login: login},		//критерий выборки

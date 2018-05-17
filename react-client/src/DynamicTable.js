@@ -39,7 +39,7 @@ class DynamicTableBody extends React.Component {
           <tr key={i}>
 
             {element.map((item, j) =>
-              <td key={j}><input type="text" id={i.toString()+' '+j.toString()} onChange={this.onChangeTableElement.bind(this, i, j)} ></input></td>
+              <td key={j}><input type="text" id={i.toString()+' '+j.toString()} defaultValue={item} onChange={this.onChangeTableElement.bind(this, i, j)} ></input></td>
             )}
           </tr>
         )}

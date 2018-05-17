@@ -4,6 +4,8 @@ import DynamicTable from './DynamicTable';
 import * as queries  from './queries';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import XLSX from 'xlsx';
+
 const TABLE_COLUMNS = [
     'Фамилия',
     'Имя',
@@ -21,9 +23,7 @@ class Send extends Component {
 		super(props);
 		this.state={
 			text:'',
-			displayedTable:[
-				['','','']
-			],
+			displayedTable:[],
 			template:'',
 			editTemplate: false,
 		};
@@ -35,6 +35,7 @@ class Send extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.onChangeTextTemplate = this.onChangeTextTemplate.bind(this);
 		this.onChangeTextSMS = this.onChangeTextSMS.bind(this);	
+		this.handleFile = this.handleFile.bind(this);
 	}	
 	componentWillMount()
 	{
@@ -50,21 +51,21 @@ class Send extends Component {
 	onChangeTextTemplate(e) {
 		console.log(e.target.value);
     this.setState({text:e.target.value});  
-  }
-  onChangeTextSMS(e) {
+    }
+    onChangeTextSMS(e) {
     this.setState({text:e.target.value});  
-  }
+    }
 	onMyClickAddRow() {
-    let table = this.state.displayedTable;
-    table.splice(table.length,0,['','','']);
-    this.setState({displayedTable: table});
-    console.log(this.state.displayedTable);
+	    let table = this.state.displayedTable;
+	    table.splice(table.length,0,['','','']);
+	    this.setState({displayedTable: table});
+	    console.log(this.state.displayedTable);
 	}
 	onMyClickDeleteRow() {
-    let table = this.state.displayedTable;
-    table.splice(table.length-1,1);
-    this.setState({displayedTable: table});
-    console.log(this.state.displayedTable);
+	    let table = this.state.displayedTable;
+	    table.splice(table.length-1,1);
+	    this.setState({displayedTable: table});
+	    console.log(this.state.displayedTable);
 	    
 	}
 	onMyClickEditTemplate(){
@@ -98,6 +99,56 @@ class Send extends Component {
      }
 	}
 	
+
+
+	handleFile(e) {
+
+	  var rABS = false; // true: readAsBinaryString ; false: readAsArrayBuffer
+	  var files = e.target.files, f = files[0];
+	  var reader = new FileReader();
+	  var table = this.state.displayedTable;
+	 
+	  reader.onload = function(e) {
+	  
+	    var data = e.target.result;
+	    if(!rABS) data = new Uint8Array(data);
+
+	    var workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'});
+	    var sheetName = workbook.SheetNames[0];
+	    var sheet = workbook.Sheets[sheetName];
+	    //adding values to table
+	    
+	    console.log(sheet);
+	    var z, a,b,c, A,B,C;
+	    	for (z in sheet) {
+			    if(z[0] === 'A') {
+			    	a = JSON.stringify(sheet[z].v);
+			    	A = z[0];
+			    }
+			    if(z[0] === 'B') {
+			    	b = JSON.stringify(sheet[z].v);
+			    	B = z[0];
+			    }
+			    if(z[0] === 'C') {
+			    	c = JSON.stringify(sheet[z].v);
+			    	C = z[0];
+			    }
+			    if(A === 'A' && B === 'B' && C === 'C'){
+			 		table.splice(table.length,0,[a,b,c]);	   
+			    	A = '';
+			    	B = '';
+			    	C = '';
+			    }
+		  	}
+		console.log(table);
+	  };
+		
+		  if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
+		
+		console.log(this.state.displayedTable);
+		this.setState({displayedTable: table});
+	}
+
 	render() {
 		let editTemplate = this.state.editTemplate;
 		let template = this.state.template;
@@ -105,7 +156,7 @@ class Send extends Component {
 			<form className="needs-validation" onSubmit={this.handleSubmit} noValidate> 
 				<div className="pos-center-block">
 					<div className="custom-file">
-						<input type="file" className="custom-file-input" id="customFile" accept=".xls, .xls"/>
+						<input type="file" className="custom-file-input" id="customFile" onChange={this.handleFile} accept=".xlsx"/>
 						<label className="custom-file-label" htmlFor="customFile">Выбирите файл</label>
 					</div>
 					<DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} isReadOnly={false} id="sendTable"/>
