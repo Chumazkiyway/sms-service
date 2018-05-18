@@ -13,36 +13,38 @@ class Home extends React.Component {
 
   }
   render() {
-    return (
-      <div className="pos-center-block">
-        <h1>Описание</h1>
-          <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-          <ol className="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-          </ol>
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <img className="d-block w-100" src="login.png" alt="First slide"/>
-            </div>
-            <div className="carousel-item">
-              <img className="d-block w-100" src="register.png" alt="Second slide"/>
-            </div>
-            <div className="carousel-item">
-              <img className="d-block w-100" src="send.png" alt="Third slide"/>
-            </div>
-          </div>
-          <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="sr-only">Previous</span>
-          </a>
-          <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="sr-only">Next</span>
-          </a>
-        </div>
-        </div>
+    return (    
+    <div class="jumbotron pos-center-block">
+      <h1 class="display-4">Описание</h1>
+      <p class="lead">Предназначение</p>
+      <p>Программный продукт предназначен для рассылки СМС сообщений.
+      В данной работе для рассылки СМС мы использовали шлюз <a href="https://smsclub.mobi">smsclub</a> </p>
+      <hr class="my-4"/>
+      <h1 class="display-4">Как пользоваться</h1>
+      <p class="lead">Регистрация</p>
+      <img src="./register.png" class="img-fluid" alt="Responsive image"/><br/><br/>
+      <p>Для начала вам необходимо зарегистрироваться, для использования СМС рассылки и сохрания общей информации (шаблон, токен, альфа имя).
+       Мы под логином и паролем подразумеваем ваши логин и пароль с аккаунта <a href="https://smsclub.mobi">smsclub</a> </p>
+      <hr class="my-4"/>
+      <p class="lead">Авторизация</p>
+      <img src="./login.png" class="img-fluid" alt="Responsive image"/><br/><br/>
+      <p>Слудующий этап это авторизация </p>
+      <hr class="my-4"/>
+      <p class="lead">Личный кабинет</p>
+      <img src="./send.jpg" class="img-fluid" alt="Responsive image"/><br/><br/>
+      <p>Пройдя авторизацию вы попадаете в личный кабинет, в нем вы заполняете таблицу получателей вашей СМС рассылки. </p>
+      <hr class="my-4"/>
+      <p class="lead">Настройка аккаунта</p>
+      <img src="./settings.jpg" class="img-fluid" alt="Responsive image"/><br/><br/>
+      <p>Пройдя авторизацию вы попадаете в личный кабинет, вам необходимо настроить ваш аккаунт, создать шаблон сообщения (по желанию), ввести токен вашего аккаунта и альфа имя
+        После этих шагов, вы можете приступать к рассылке. Удачи!. </p>
+      
+      
+      
+
+      <hr class="my-4"/>
+      
+    </div>
     );
   }
 }

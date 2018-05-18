@@ -22,6 +22,7 @@ class Send extends Component {
 		super(props);
 		this.state={
 			text:'',
+			textCounter:0,
 			displayedTable:[],
 			template:'',
 			editTemplate: false,
@@ -43,7 +44,7 @@ class Send extends Component {
 		*/	
 			
 	}
-	
+
 	onChangeTextSMS(e) {
 		this.setState({text:e.target.value});  
 	}
@@ -59,7 +60,9 @@ class Send extends Component {
     	this.setState({text:e.target.value});  
     }
     onChangeTextSMS(e) {
-    	this.setState({text:e.target.value});  
+    	let textLength =  e.target.value.length;
+    	this.setState({text:e.target.value,textCounter:textLength});
+
     }
 	onMyClickAddRow() {
 	    let table = this.state.displayedTable;
@@ -97,23 +100,23 @@ class Send extends Component {
 	
 	handleFile(e) {
 
-	  var rABS = false; // true: readAsBinaryString ; false: readAsArrayBuffer
-	  var files = e.target.files, f = files[0];
-	  var reader = new FileReader();
-	  var table = this.state.displayedTable;
+	  let rABS = false; // true: readAsBinaryString ; false: readAsArrayBuffer
+	  let files = e.target.files, f = files[0];
+	  let reader = new FileReader();
+	  var table = [];
 	 
 	  reader.onload = function(e) {
 	  
-	    var data = e.target.result;
+	    let data = e.target.result;
 	    if(!rABS) data = new Uint8Array(data);
 
-	    var workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'});
-	    var sheetName = workbook.SheetNames[0];
-	    var sheet = workbook.Sheets[sheetName];
+	    let workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'});
+	    let sheetName = workbook.SheetNames[0];
+	    let sheet = workbook.Sheets[sheetName];
 	    //adding values to table
 	    
 	    console.log(sheet);
-	    var z, a,b,c, A,B,C;
+	    let z, a,b,c, A,B,C;
 	    	for (z in sheet) {
 			    if(z[0] === 'A') {
 			    	a = JSON.stringify(sheet[z].v);
@@ -135,16 +138,18 @@ class Send extends Component {
 			    }
 		  	}
 		console.log(table);
+		
 	  };
 		
-		  if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
+
+		this.setState({displayedTable:table});
 		
-		console.log(this.state.displayedTable);
-		this.setState({displayedTable: table});
+		  if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
 	}
 
 	render() {
 		let balance = sessionStorage.getItem('balance');
+		let textLength = this.state.textCounter;
 		return (
 			<div>
 			
@@ -165,11 +170,13 @@ class Send extends Component {
 					</div>
 					<br/><br/>
 														  
-					  <div>												
-					  <label htmlFor="ts">Input message</label>
-					  <textarea onChange={this.onChangeTextSMS} name="textSMS" id="ts"  className="form-control" rows="5"></textarea><br/>
-					  <input type="button" className="btn btn-success btn-block" onClick={this.handleSubmit} value="Submit" name="submit"/>
-					  </div>
+					<div>												
+						<label htmlFor="ts">Input message</label>					
+							
+						<textarea onChange={this.onChangeTextSMS} name="textSMS" id="ts"  className="form-control" rows="5"></textarea><br/>
+						<h6>simbol counter: { textLength }</h6>
+						<input type="button" className="btn btn-success btn-block" onClick={this.handleSubmit} value="Submit" name="submit"/>
+					</div>
 					
 				</div>
 			</form>

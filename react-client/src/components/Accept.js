@@ -82,8 +82,7 @@ class Accept extends React.Component {
           <div className="table-responsive">
             <DynamicTable data={tab} columns={TABLE_COLUMNS} isReadOnly={true} id="acceptTable"/>
           </div>
-            <span>Количество смс сообщений: </span><br/>
-            <span>Количество viber сообщений: </span><br/>
+          
             <span> Цена отправки одного смс сообщения: {cost}грн</span><br/>
             <span> Цена отправки смс сообщений: {totalPrice}грн</span><br/>
             <Link to="/send"><button onClick={this.cancel} className="btn btn-danger my-btn-pos-1">Cancel</button></Link>
