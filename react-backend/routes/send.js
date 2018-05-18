@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
 
   //validation
   var login = req.body.login;
-  var password = req.body.pass;
+  var pass = req.body.pass;
   var userIsFind = false; 
 
   mongoClient.connect(url, function (err, database ){

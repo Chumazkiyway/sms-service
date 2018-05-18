@@ -36,7 +36,11 @@ class ModalSettings extends React.Component {
       alpha: this.props.alpha,
       pattern: this.props.pattern,
     });
+    
+    console.log(this.state.pattern);
+
   }
+
   render() {
 
     const isOpen = this.props.isOpen;
@@ -47,7 +51,7 @@ class ModalSettings extends React.Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Settings</h5>
-              <button type="button" className="close">
+              <button type="button" className="close" onClick={this.props.closeSettings}>
                 <span >&times;</span>
               </button>
             </div>
@@ -62,7 +66,7 @@ class ModalSettings extends React.Component {
               </div>
               <div className="form-group">
                 <label className="control-label">Pattern</label>
-                <textarea onChange={this.onChangePattern} className="form-control"  defaultValue={this.state.pattern} placeholder="Input pattern" required>{this.state.pattern}</textarea>                      
+                <textarea onChange={this.onChangePattern} className="form-control"  value={this.state.pattern} placeholder="Input pattern" rows="3"></textarea>                      
               </div>
             </div>
             <div className="modal-footer">

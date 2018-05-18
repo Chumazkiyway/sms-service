@@ -19,6 +19,10 @@ class Header extends React.Component {
       this.props.changeLogButton();
       sessionStorage.removeItem('login');
       sessionStorage.removeItem('pass'); 
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('pattern'); 
+      sessionStorage.removeItem('alphaname'); 
+      sessionStorage.removeItem('balance'); 
     }
     this.props.history.push('/login');
   }

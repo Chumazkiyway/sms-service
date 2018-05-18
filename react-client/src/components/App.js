@@ -103,7 +103,7 @@ class App extends Component {
 				{	
 					ModalIsOpen?
 					<ModalSettings isOpen={this.state.ModalIsOpen} closeSettings={this.closeSettings} saveSettings={this.saveSettings}
-					token={this.state.token} pattern={this.state.patern} alpha={this.state.alpha} />
+					token={this.state.token} pattern={this.state.pattern} alpha={this.state.alpha} />
 					:
 					<div></div>
 				}		 
@@ -112,7 +112,7 @@ class App extends Component {
 		      <Route path='/login' render={(props) => <Login changeLogButton={this.changeLogButton} setUserInfo={this.setUserInfo}/>}/>
 		      <Route path='/register' render={(props) => <Register/>}/>
 		      <Route path='/accept' render={(props) => <Accept />}/>
-		      <Route path='/send' render={(props) => <Send/>}/>
+		      <Route path='/send' render={(props) => <Send pattern={this.state.pattern}/>} />
 	        <Route component={Undefined}/>
 		    </Switch>
 	    </div>

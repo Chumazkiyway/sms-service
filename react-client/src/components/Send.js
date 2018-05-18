@@ -26,6 +26,7 @@ class Send extends Component {
 			displayedTable:[],
 			template:'',
 			editTemplate: false,
+			fileName: 'Select a file with filled columns A B C'
 		};
 		this.onMyClickAddRow = this.onMyClickAddRow.bind(this);
 		this.onMyClickDeleteRow = this.onMyClickDeleteRow.bind(this);
@@ -34,15 +35,8 @@ class Send extends Component {
 		this.handleFile = this.handleFile.bind(this);
 	}	
 	componentWillMount() {
-		/*let login = sessionStorage.getItem('login',this.state.login);
-		let pass = sessionStorage.getItem('pass',this.state.login);
-		let isValid = queries.getQueriepostQuerieValidateLogin(login,pass,'/send');
-		console.log(isValid);
-		if(!isValid)
-			this.history.push('/login');
-		else alert('вы не авторезированы!');
-		*/	
-			
+		var text = sessionStorage.getItem('pattern');
+		this.setState({text:text,textCounter:text.length});  
 	}
 
 	onChangeTextSMS(e) {
@@ -76,36 +70,47 @@ class Send extends Component {
 	    this.setState({displayedTable: table});
 	    console.log(this.state.displayedTable);    
 	}
-	async handleSubmit(e){
-    e.preventDefault();
-    console.log(this.state.displayedTable);
-    let subscribers = [];
-    let table = this.state.displayedTable;
 
-    for (let i = 0; i < table.length; i++) {
-		  subscribers.push({
-		  	lastname: table[i][0],
-		  	firstname: table[i][1],
-		  	phone: table[i][2]
-		  });
+	async handleSubmit(e){
+	    e.preventDefault();
+	    console.log(this.state.displayedTable);
+	    let subscribers = [];
+	    let table = this.state.displayedTable;
+
+	    for (let i = 0; i < table.length; i++) {
+			  subscribers.push({
+			  	lastname: table[i][0],
+			  	firstname: table[i][1],
+			  	phone: table[i][2]
+			  });
+			}
+		let login = sessionStorage.getItem('login');
+		let pass = sessionStorage.getItem('pass');
+		console.log(this.state.text);
+		sessionStorage.setItem('text',this.state.text);
+		let user = await queries.postQuerieSend(subscribers,this.state.text,login,pass);
+		if(user){
+	    	this.props.history.push('/accept');
 		}
-	let user = await queries.postQuerieSend(subscribers,this.state.text);
-	if(user){
-    	this.props.history.push('/accept');
-	}
-     else{
-      alert('You are not autorized');
-     }
+	     else{
+	      alert('You are not autorized');
+	     }
 	}
 	
-	handleFile(e) {
+	async handleFile(e) {
 
-	  let rABS = false; // true: readAsBinaryString ; false: readAsArrayBuffer
-	  let files = e.target.files, f = files[0];
-	  let reader = new FileReader();
-	  var table = [];
-	 
-	  reader.onload = function(e) {
+	  var rABS = false; // true: readAsBinaryString ; false: readAsArrayBuffer
+	  var files = e.target.files, f = files[0];
+	  var reader = new FileReader();
+	  var table = this.state.displayedTable;
+	  var currentName = this.state.fileName;
+	  	if(currentName != f.name){
+	  	this.setState({fileName: f.name});
+	  	}	
+	  
+
+	  reader.onload = await function(e) {
+
 	  
 	    let data = e.target.result;
 	    if(!rABS) data = new Uint8Array(data);
@@ -114,20 +119,22 @@ class Send extends Component {
 	    let sheetName = workbook.SheetNames[0];
 	    let sheet = workbook.Sheets[sheetName];
 	    //adding values to table
+
 	    
 	    console.log(sheet);
 	    let z, a,b,c, A,B,C;
+
 	    	for (z in sheet) {
 			    if(z[0] === 'A') {
-			    	a = JSON.stringify(sheet[z].v);
+			    	a = JSON.stringify(sheet[z].v).replace(/\"/g,'');
 			    	A = z[0];
 			    }
 			    if(z[0] === 'B') {
-			    	b = JSON.stringify(sheet[z].v);
+			    	b = JSON.stringify(sheet[z].v).replace(/\"/g,'');
 			    	B = z[0];
 			    }
 			    if(z[0] === 'C') {
-			    	c = JSON.stringify(sheet[z].v);
+			    	c = JSON.stringify(sheet[z].v).replace(/\"/g,'');
 			    	C = z[0];
 			    }
 			    if(A === 'A' && B === 'B' && C === 'C'){
@@ -137,14 +144,16 @@ class Send extends Component {
 			    	C = '';
 			    }
 		  	}
+
 		console.log(table);
 		
 	  };
-		
+		  if(rABS) reader.readAsBinaryString(f);
+		  else reader.readAsArrayBuffer(f);
+			
 
-		this.setState({displayedTable:table});
-		
-		  if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
+		  this.setState({displayedTable: table});
+
 	}
 
 	render() {
@@ -158,7 +167,7 @@ class Send extends Component {
 				<div className="pos-center-block">
 				<h6>Balance: {balance} uah</h6>
 					<div className="custom-file">			
-						<label className="custom-file-label" htmlFor="customFile">Set file</label>
+						<label className="custom-file-label" htmlFor="customFile">{this.state.fileName}</label>
 						<input type="file" className="custom-file-input" id="customFile" onChange={this.handleFile} accept=".xlsx"/>	
 					</div>
 					<DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} isReadOnly={false} id="sendTable"/>
@@ -170,13 +179,13 @@ class Send extends Component {
 					</div>
 					<br/><br/>
 														  
-					<div>												
-						<label htmlFor="ts">Input message</label>					
-							
-						<textarea onChange={this.onChangeTextSMS} name="textSMS" id="ts"  className="form-control" rows="5"></textarea><br/>
-						<h6>simbol counter: { textLength }</h6>
-						<input type="button" className="btn btn-success btn-block" onClick={this.handleSubmit} value="Submit" name="submit"/>
-					</div>
+					  <div>												
+						  <label htmlFor="ts">Input message</label>
+						  <textarea onChange={this.onChangeTextSMS} defaultValue={this.props.pattern} name="textSMS" id="ts"  className="form-control" rows="5"></textarea><br/>
+						  <h6>simbol counter: { textLength }</h6>
+						  <input type="button" className="btn btn-success btn-block" onClick={this.handleSubmit} value="Submit" name="submit"/>
+					  </div>
+
 					
 				</div>
 			</form>
