@@ -58,7 +58,7 @@ export async function postQuerieRegistration(login,pass1)
 }
 
 // /send
-export async function postQuerieSend(subscribers,text)
+export async function postQuerieSend(subscribers,text, login,pass)
 {
   let isUserValid;
 	await fetch('/send', {
@@ -68,6 +68,8 @@ export async function postQuerieSend(subscribers,text)
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          login: login,
+          pass: pass,
           subscribers:subscribers
         }),
       })
@@ -87,7 +89,7 @@ export async function postQuerieSend(subscribers,text)
 }
 
 // / accept
-export async function postQuerieAccept(subscribers,text, login, pass, alphaname )
+export async function postQuerieAccept(subscribers,text, login, pass, alphaname,token )
 {
   let isUserValid;
   await fetch('/accept', {
@@ -101,14 +103,16 @@ export async function postQuerieAccept(subscribers,text, login, pass, alphaname 
           pass: pass,
           alphaname: alphaname,
           subscribers:subscribers,
-          text:text
+          text:text,
+          token: token
         }),
       })
       .then(res => res.json())
       .then(obj => {
             if(obj.res != true)
-              console.log(obj.result);
-          isUserValid = obj.result;
+              console.log(obj.res);
+          isUserValid = obj.res;
+          sessionStorage.setItem('balance',obj.balance);
       })
       .catch (function (error) {
           console.log('Request failed', error);

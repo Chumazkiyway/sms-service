@@ -9,8 +9,7 @@ import { withRouter } from 'react-router-dom';
 const TABLE_COLUMNS = [
     'Lastname',
     'Firstname',
-    'Phone',
-    'Type SMS'
+    'Phone'
 ];
 class Accept extends React.Component {
   static propTypes = {
@@ -44,7 +43,7 @@ class Accept extends React.Component {
       
       if(subscribers != null) {
         for (let i = 0; i < subscribers.length; i++) {
-        table.push([subscribers[i].firstname,subscribers[i].lastname,subscribers[i].phone,subscribers[i].smsType]);
+        table.push([subscribers[i].firstname,subscribers[i].lastname,subscribers[i].phone]);
         }
       }
       this.setState({displayedTable: table});
@@ -54,10 +53,11 @@ class Accept extends React.Component {
     e.preventDefault();
     let login = sessionStorage.getItem('login');
     let pass = sessionStorage.getItem('pass');
-    let alphaname = 'club_bulk';
+    let alphaname = sessionStorage.getItem('alphaname');;
     let text = sessionStorage.getItem('text');
-    console.log(this.state.displayedTable);
-     let user = await queries.postQuerieAccept(this.state.displayedTable,text, login, pass, alphaname);
+    let token = sessionStorage.getItem('token');
+    console.log(text);
+     let user = await queries.postQuerieAccept(this.state.displayedTable,text, login, pass, alphaname,token);
      if(user){
         this.props.history.push('/send'); 
      }
@@ -75,15 +75,14 @@ class Accept extends React.Component {
     if(tab != null){
       totalPrice =  tab.length* cost;
     }
-
+    let balance = sessionStorage.getItem('balance');
     return (
       <div>
         <div className="pos-center-block">
+        <h6>Balance: {balance} uah</h6>
           <div className="table-responsive">
             <DynamicTable data={tab} columns={TABLE_COLUMNS} isReadOnly={true} id="acceptTable"/>
           </div>
-            <span>Количество смс сообщений: </span><br/>
-            <span>Количество viber сообщений: </span><br/>
             <span> Цена отправки одного смс сообщения: {cost}грн</span><br/>
             <span> Цена отправки смс сообщений: {totalPrice}грн</span><br/>
             <Link to="/send"><button onClick={this.cancel} className="btn btn-danger my-btn-pos-1">Cancel</button></Link>

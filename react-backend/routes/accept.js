@@ -1,16 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var mongoClient = require("mongodb").MongoClient;
+const https = require('https');
 
 var sendSms = require('../modules/sendToSmsGateway');
 
 var url = "mongodb://localhost:27017/usersService";
 
 /* GET users listing. */
-router.post('/', (req, res) => {
+router.post('/', (req, result) => {
 
   var login = req.body.login;
-  var password = req.body.pass;
+  var pass = req.body.pass;
   var userIsFind = false; 
 
   mongoClient.connect(url, function (err, database ){
@@ -47,14 +48,45 @@ router.post('/', (req, res) => {
                     var xmlBody = "<?xml version='1.0' encoding='utf-8'?>" +
                                   "<request_sendsms>" +
                                         "<username><![CDATA["+ login +"]]></username>" +
-                                        "<password><![CDATA["+ password +"]]></password>" +
+                                        "<password><![CDATA["+ pass +"]]></password>" +
                                         "<from><![CDATA[" + alphaName +"]]></from>" +
                                         "<to><![CDATA[" + abonents + "]]></to>" +
                                         "<text><![CDATA[" + text +"]]></text>" +
                                   "</request_sendsms>";
-                    //sendSms.sendMsg(xmlBody);
+                    console.log(text);
+                    
+                    sendSms.sendMsg(xmlBody);
+
+                    var token = req.body.token;
+                    var url = 'https://gate.smsclub.mobi/token/getbalance.php?username=' + login + '&token=' + token; 
+                    https.get(url, (res) =>{
+                      
+                        console.log( 'status:' + res.statusCode);
+                        var buffer = "";
+
+                        res.on( "data", function( data ) {
+                            buffer = buffer + data; 
+                        });
+
+                        res.on( "end", function( data ) {
+
+                            balance = '';
+                            for (var i = 0; i < buffer.length; i++) {
+                                if(buffer[i] == '<')
+                                    break;
+                                balance += buffer[i];    
+                            }
+                            
+                            var obj = {
+                                res: userIsFind,
+                                balance: balance
+                            };
+                            console.log("Result for client: " + obj.res);
+                            result.json(obj);
+                       });
+
+                    });
                   }
-                  res.json({res:userIsFind});
               });
         });
 });
