@@ -160,35 +160,33 @@ class Send extends Component {
 		let balance = sessionStorage.getItem('balance');
 		let textLength = this.state.textCounter;
 		return (
-			<div>
-			
-			<form className="needs-validation" onSubmit={this.handleSubmit} noValidate> 
+			<div>			
+				<form className="needs-validation" onSubmit={this.handleSubmit} noValidate> 
+					<div className="pos-center-block">
+						<h6>Balance: {balance} uah</h6>
+						<div className="custom-file">			
+							<label className="custom-file-label" htmlFor="customFile">{this.state.fileName}</label>
+							<input type="file" className="custom-file-input" id="customFile" onChange={this.handleFile} accept=".xlsx"/>	
+						</div>
+						<DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} isReadOnly={false} id="sendTable"/>
+						<div className="btnAdd">
+							<input type="button" className="btn btn-info" onClick={this.onMyClickAddRow} value="Add" name="submit"/>
+						</div>
+						<div className="btnDelete">
+							<input type="button" className="btn btn-danger" onClick={this.onMyClickDeleteRow} value="Delete" name="submit"/>
+						</div>
+						<br/><br/>
+															
+						<div>												
+							<label htmlFor="ts">Input message</label>
+							<textarea onChange={this.onChangeTextSMS} defaultValue={this.props.pattern} name="textSMS" id="ts"  className="form-control" rows="5"></textarea><br/>
+							<h6>simbol counter: { textLength }</h6>
+							<input type="button" className="btn btn-success btn-block" onClick={this.handleSubmit} value="Submit" name="submit"/>
+						</div>
 
-				<div className="pos-center-block">
-				<h6>Balance: {balance} uah</h6>
-					<div className="custom-file">			
-						<label className="custom-file-label" htmlFor="customFile">{this.state.fileName}</label>
-						<input type="file" className="custom-file-input" id="customFile" onChange={this.handleFile} accept=".xlsx"/>	
+						
 					</div>
-					<DynamicTable data={this.state.displayedTable} columns={TABLE_COLUMNS} isReadOnly={false} id="sendTable"/>
-					<div className="btnAdd">
-						<input type="button" className="btn btn-info" onClick={this.onMyClickAddRow} value="Add" name="submit"/>
-					</div>
-					<div className="btnDelete">
-						<input type="button" className="btn btn-danger" onClick={this.onMyClickDeleteRow} value="Delete" name="submit"/>
-					</div>
-					<br/><br/>
-														  
-					  <div>												
-						  <label htmlFor="ts">Input message</label>
-						  <textarea onChange={this.onChangeTextSMS} defaultValue={this.props.pattern} name="textSMS" id="ts"  className="form-control" rows="5"></textarea><br/>
-						  <h6>simbol counter: { textLength }</h6>
-						  <input type="button" className="btn btn-success btn-block" onClick={this.handleSubmit} value="Submit" name="submit"/>
-					  </div>
-
-					
-				</div>
-			</form>
+				</form>
 			</div>
 
 		);

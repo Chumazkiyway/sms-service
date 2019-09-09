@@ -8,6 +8,7 @@ router.post('/', (req,res) => {
 	if(!req.body) return res.sendStatus(400);
 
 	mongoClient.connect(url, function(err, database){
+		
      	var userIsFind = false;
      	var userIsCreate = false;
      	var userLogin = req.body.login;

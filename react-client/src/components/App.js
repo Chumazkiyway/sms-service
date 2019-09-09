@@ -14,6 +14,7 @@ class App extends Component {
 
 	constructor(props){
 		super(props);
+		
 		this.state={
 			logButton:{
 				editButtonOutOrIn: false,
@@ -25,6 +26,7 @@ class App extends Component {
 			alpha: '',
 			pattern: ''
 		};
+
 		this.changeLogButton = this.changeLogButton.bind(this);
 		this.openSettings = this.openSettings.bind(this);
 		this.saveSettings = this.saveSettings.bind(this);
@@ -56,6 +58,7 @@ class App extends Component {
 		let token = sessionStorage.getItem('token');
 		let alphaname = sessionStorage.getItem('alphaname');
 		let pattern = sessionStorage.getItem('pattern');
+
 		if(sessionStorage.getItem('login') != null) {
 			this.setState({
 				logButton:{
@@ -76,11 +79,14 @@ class App extends Component {
 		this.setState({ModalIsOpen: false});
 	}
 	async saveSettings(token,alpha,pattern){
+
 		sessionStorage.setItem('token',token);
 		sessionStorage.setItem('alphaname',alpha);
 		sessionStorage.setItem('pattern',pattern);
+
 		let login = sessionStorage.getItem('login');
 		let pass = sessionStorage.getItem('pass');
+
 		this.setState({
 				ModalIsOpen: false,
 				token: token,
@@ -88,7 +94,9 @@ class App extends Component {
 				pattern: pattern,
 			}
 		);
+		
 		let result = await queries.postQuerieSettings(login,pass,token,alpha,pattern);
+
 		if(!result)
 			alert('save err');
 
@@ -107,15 +115,15 @@ class App extends Component {
 					:
 					<div></div>
 				}		 
-	  		<Switch>
-		      <Route exact path='/' render={(props) => <Home/>} />
-		      <Route path='/login' render={(props) => <Login changeLogButton={this.changeLogButton} setUserInfo={this.setUserInfo}/>}/>
-		      <Route path='/register' render={(props) => <Register/>}/>
-		      <Route path='/accept' render={(props) => <Accept />}/>
-		      <Route path='/send' render={(props) => <Send pattern={this.state.pattern}/>} />
-	        <Route component={Undefined}/>
-		    </Switch>
-	    </div>
+				<Switch>
+					<Route exact path='/' render={(props) => <Home/>} />
+					<Route path='/login' render={(props) => <Login changeLogButton={this.changeLogButton} setUserInfo={this.setUserInfo}/>}/>
+					<Route path='/register' render={(props) => <Register/>}/>
+					<Route path='/accept' render={(props) => <Accept />}/>
+					<Route path='/send' render={(props) => <Send pattern={this.state.pattern}/>} />
+					<Route component={Undefined}/>
+				</Switch>
+	    	</div>
 		);
 	}
 }
